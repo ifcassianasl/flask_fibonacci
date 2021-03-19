@@ -1,9 +1,8 @@
 import redis
 import json
-import docker
 from flask import Flask
 app = Flask(__name__)
-cache = redis.StrictRedis(host='localhost', port=6379, db=0)
+cache = redis.Redis(host='redis', port=6379, db=0)
 
 
 @app.route('/')
@@ -28,3 +27,7 @@ def find_fibonacci(fibonacci_index):
     cache.set('fibonacci_sequence', json.dumps(fibonacci_sequence))
 
     return json.dumps(fibonacci_sequence[fibonacci_index])
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
